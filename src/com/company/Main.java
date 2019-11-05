@@ -1,19 +1,96 @@
 package com.company;
 
+import com.sun.xml.internal.fastinfoset.util.CharArray;
+
 public class Main {
 
     public static void main(String[] args) {
-        Main.highAndLow("8 3 -5 42 -1 0 0 -9 4 7 4 -4");
+        Main.highAndLow("42 42");
     }
 
     public static String highAndLow(String numbers) {
-        int i = 0, f = 1;
-        int max = 0, min = 0;
-        System.out.println(numbers.substring(1,2).equals(" "));
-        while (f < numbers.length()){
-        if(numbers.substring());
+        int i = 0, max = 0, min = 0, helper = 0, mult = 1, first = 0;
+        String result;
+        char[] numarray = numbers.toCharArray();
+        while(i < numarray.length){
+            switch(numarray[i]){
+                case ' ':
+                    i ++;
+                    break;
+
+                case '-':
+                    helper = 0;
+                    mult = 1;
+                    while(Character.isDigit(numarray[i+1])) {
+                        i++;
+                        helper = helper * mult;
+                        helper = helper + Integer.parseInt(String.valueOf(numarray[i]));
+                        mult = 10;
+                        if(i+1 >= numarray.length) {
+                            helper = helper * -1;
+                            if(helper < min){
+                                min = helper;
+                            }
+                            if(first == 0){
+                                max = helper;
+                                min = helper;
+                                first = 1;
+                            }
+                            break;
+                        }
+                    }
+                    helper = helper * -1;
+                    if(first == 0){
+                        max = helper;
+                        min = helper;
+                        first = 1;
+                    }
+                    if(helper < min){
+                        min = helper;
+                    }
+                    i++;
+                    break;
+
+                default:
+                    helper = 0;
+                    mult = 1;
+                    while(Character.isDigit(numarray[i])) {
+                        helper = helper * mult;
+                        helper = helper + Integer.parseInt(String.valueOf(numarray[i]));
+                        mult = 10;
+                        i++;
+                        if(i >= numarray.length) {
+                            i++;
+                            if(first == 0){
+                                max = helper;
+                                min = helper;
+                                first = 1;
+                            }
+                            if(helper < min){
+                                min = helper;
+                            }else if(helper > max){
+                                max = helper;
+                            }
+                            break;
+                        }
+                    }
+                    if(first == 0){
+                        max = helper;
+                        min = helper;
+                        first = 1;
+                    }
+                    if(helper < min){
+                        min = helper;
+                    }else if(helper > max){
+                        max = helper;
+                    }
+                    break;
+                    }
         }
-        return "throw towel";
+        System.out.println(numarray);
+        result = max + " " + min;
+        System.out.println(result);
+        return result;
     }
 
 }
